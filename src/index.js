@@ -1,3 +1,7 @@
+let $fruit = null;
+let roundCounter;
+let $buttonStart = document.querySelector("#button-start");
+let $board = document.querySelector("#board");
 const FRUITS = [
     "apple",
     "banana",
@@ -12,11 +16,6 @@ const FRUITS = [
     "pineapple",
     "peach",
 ];
-let $fruit = null;
-let roundCounter;
-let $buttonStart = document.querySelector("#button-start");
-let $board = document.querySelector("#board");
-$buttonStart.onclick = handleDisplayStartGame;
 
 function handleDisplayStartGame() {
     roundCounter = 0;
@@ -25,34 +24,42 @@ function handleDisplayStartGame() {
     $totalRounds.style.display = "none";
     $buttonStart.style.display = "none";
     $containerStart.style.display = "none";
-    handleInsertFruit();
+    configureGame();
 }
 
-function handleInsertFruit() {
+function configureGame() {
     let doubleFruits = FRUITS.concat(FRUITS);
     sortRandomFruit(doubleFruits);
     let $row = $board.querySelector(".row");
     doubleFruits.forEach((fruitName, index) => {
-        let $fruitContainer = document.createElement("div");
-        $fruitContainer.className = "fruit-container col-3";
-
-        $img = document.createElement("img");
-        $img.className = `fruit ${fruitName}`;
-        $img.src = `./src/img/${fruitName}.svg`;
-
-        $fruitContainer.appendChild($img);
-        setTimeout(() => {
-            $row.appendChild($fruitContainer);
-        }, (index + 1) * 150);
+        let elements = {};
+        createElements(fruitName, elements);
+        insertElements($row, index, elements);
     });
 }
+
+function createElements(fruitName, elements) {
+    let $fruitContainer = document.createElement("div");
+    let $fruitImg = document.createElement("img");
+    $fruitContainer.className = "fruit-container col-3";
+    $fruitImg.className = `fruit ${fruitName}`;
+    $fruitImg.src = `./src/img/${fruitName}.svg`;
+    elements.$fruitContainer = $fruitContainer;
+    elements.$fruitImg = $fruitImg;
+}
+
+function insertElements($row, index, { $fruitContainer, $fruitImg }) {
+    $fruitContainer.appendChild($fruitImg);
+    setTimeout(() => {
+        $row.appendChild($fruitContainer);
+    }, (index + 1) * 150);
+}
+
 function sortRandomFruit(doubleFruits) {
     doubleFruits = doubleFruits.sort(() => {
         return 0.5 - Math.random();
     });
 }
-
-$board.onclick = handlePlayerInput;
 
 function handlePlayerInput(event) {
     let $currentElement = event.target;
@@ -66,20 +73,22 @@ function handlePlayerInput(event) {
 function handleCompareFruits($currentFruit) {
     if (!$fruit) {
         $fruit = $currentFruit;
+        return;
     } else if ($fruit === $currentFruit) {
         hiddenFruit($fruit);
-        $fruit = null;
-    } else if (fruitAreEqual($fruit, $currentFruit)) {
+        return;
+    }
+
+    roundCounter++;
+
+    if (fruitAreEqual($fruit, $currentFruit)) {
         matchedFruit($fruit);
         matchedFruit($currentFruit);
-        $fruit = null;
-        roundCounter++;
     } else {
         hiddenFruit($fruit);
         hiddenFruit($currentFruit);
-        $fruit = null;
-        roundCounter++;
     }
+    $fruit = null;
 }
 
 function fruitAreEqual($fruit, $currentFruit) {
@@ -133,3 +142,6 @@ function handleDisplaysEndGame() {
         $container.remove();
     });
 }
+
+$buttonStart.addEventListener("click", handleDisplayStartGame);
+$board.addEventListener("click", handlePlayerInput);
