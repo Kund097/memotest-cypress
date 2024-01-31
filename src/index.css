@@ -4,17 +4,15 @@ html {
     margin: 0;
     height: 100%;
     background-image: url("../src/img/bg-fruit.jpg");
-    background-repeat: repeat;
     font-family: "Poor Story", sans-serif !important;
 }
 
 .fruit-container {
-    height: 16.66vh;
     border: 4px ridge green;
     cursor: pointer;
     padding: 0% !important;
     animation-name: animation-container-fruit;
-    animation-duration: 250ms;
+    animation-duration: 750ms;
 }
 
 img {
@@ -68,6 +66,7 @@ img {
     border: 1px solid black;
     border-radius: 30px;
     z-index: 100;
+    margin: 0.1px;
 }
 
 .container-results {
@@ -77,6 +76,31 @@ img {
     margin-bottom: 3em;
     color: white;
 }
+.container-buttons {
+    flex-direction: column;
+}
+
+.container-difficulty {
+    margin-top: 2em;
+    text-align: center;
+    color: indigo;
+}
+
+.btn-difficulty {
+    margin: .5em;
+    transition: background-color 1ms !important;
+    background-color: #591188 !important;
+    border: none !important;
+}
+
+.btn-difficulty:hover {
+    background-color: rgb(120, 58, 165) !important;
+}
+
+.btn-check:checked + label {
+    background-color: rgb(147, 69, 202) !important;
+}
+
 /* animaciones */
 @keyframes fruit-animation-show {
     0% {
@@ -111,12 +135,13 @@ img {
 
 @keyframes btn-start-animation {
     0% {
-        background-color: #38d13d;
+        background-color: transparent;
+        border: none;
     }
     100% {
         background-color: indigo;
         color: white;
-        scale: 1.2;
+        scale: 1.1;
     }
 }
 
@@ -124,6 +149,7 @@ img {
     0% {
         scale: 0;
         opacity: 0;
+        border: none;
     }
     100% {
         scale: 1;

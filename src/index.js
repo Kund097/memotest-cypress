@@ -1,21 +1,8 @@
 let $fruit = null;
 let roundCounter;
+let currentFruits = [];
 let $buttonStart = document.querySelector("#button-start");
 let $board = document.querySelector("#board");
-const FRUITS = [
-    "apple",
-    "banana",
-    "cherries",
-    "grape",
-    "green-apple",
-    "pear",
-    "strawberry",
-    "tangerine",
-    "watermelon",
-    "lemon",
-    "pineapple",
-    "peach",
-];
 
 function handleDisplayStartGame() {
     roundCounter = 0;
@@ -27,14 +14,40 @@ function handleDisplayStartGame() {
     configureGame();
 }
 
+function setDifficulty(FRUITS) {
+    let difficultyValue = document.querySelector(".btn-check:checked").value;
+    for (let i = 0; i < difficultyValue; i++) {
+        currentFruits.push(
+            FRUITS.splice(Math.floor(Math.random() * FRUITS.length), 1)
+        );
+    }
+}
+
 function configureGame() {
-    let doubleFruits = FRUITS.concat(FRUITS);
+    currentFruits = [];
+    const FRUITS = [
+        "apple",
+        "banana",
+        "cherries",
+        "grape",
+        "green-apple",
+        "pear",
+        "strawberry",
+        "tangerine",
+        "watermelon",
+        "lemon",
+        "pineapple",
+        "peach",
+        "coconut",
+    ];
+    setDifficulty(FRUITS);
+    let doubleFruits = currentFruits.concat(currentFruits);
     sortRandomFruit(doubleFruits);
     let $row = $board.querySelector(".row");
-    doubleFruits.forEach((fruitName, index) => {
+    doubleFruits.forEach((fruitName) => {
         let elements = {};
         createElements(fruitName, elements);
-        insertElements($row, index, elements);
+        insertElements($row,elements);
     });
 }
 
@@ -42,17 +55,18 @@ function createElements(fruitName, elements) {
     let $fruitContainer = document.createElement("div");
     let $fruitImg = document.createElement("img");
     $fruitContainer.className = "fruit-container col-3";
+    $fruitContainer.style.height = `${100 / (currentFruits.length / 2)}vh`;
     $fruitImg.className = `fruit ${fruitName}`;
     $fruitImg.src = `./src/img/${fruitName}.svg`;
     elements.$fruitContainer = $fruitContainer;
     elements.$fruitImg = $fruitImg;
 }
 
-function insertElements($row, index, { $fruitContainer, $fruitImg }) {
+function insertElements($row,{ $fruitContainer, $fruitImg }) {
     $fruitContainer.appendChild($fruitImg);
-    setTimeout(() => {
+
         $row.appendChild($fruitContainer);
-    }, (index + 1) * 150);
+
 }
 
 function sortRandomFruit(doubleFruits) {
@@ -76,10 +90,10 @@ function handleCompareFruits($currentFruit) {
         return;
     } else if ($fruit === $currentFruit) {
         hiddenFruit($fruit);
+        $fruit = null;
+        roundCounter++;
         return;
     }
-
-    roundCounter++;
 
     if (fruitAreEqual($fruit, $currentFruit)) {
         matchedFruit($fruit);
@@ -88,6 +102,7 @@ function handleCompareFruits($currentFruit) {
         hiddenFruit($fruit);
         hiddenFruit($currentFruit);
     }
+    roundCounter++;
     $fruit = null;
 }
 
@@ -122,20 +137,26 @@ function matchedFruit($currentFruit) {
 }
 
 function evaluateEndOfGame() {
-    let matchedFruits = document.querySelectorAll(".fruit-matched").length;
-    let totalFruits = FRUITS.length * 2;
-    if (Number(matchedFruits) === Number(totalFruits)) {
-        handleDisplaysEndGame();
-    }
+    setTimeout(() => {
+        let matchedFruits = document.querySelectorAll(".fruit-matched").length;
+        let totalFruits = currentFruits.length * 2;
+        if (Number(matchedFruits) === Number(totalFruits)) {
+            handleDisplaysEndGame();
+        }
+    }, 1000);
 }
 
 function handleDisplaysEndGame() {
     let $containerStart = document.querySelector("#container-start");
     let $totalRounds = document.querySelector("#results-total-rounds");
+    let $totalPoints = document.querySelector("#results-total-points");
     $containerStart.style.display = "flex";
     $buttonStart.style.display = "block";
     $totalRounds.style.display = "block";
     $totalRounds.textContent = `Cantidad de rondas para ganar: ${roundCounter}`;
+    $totalPoints.textContent = `Puntuación final: ${
+        currentFruits.length * 10 - roundCounter
+    }`;
 
     let $containersFruits = document.querySelectorAll(".fruit-container");
     $containersFruits.forEach(($container) => {
