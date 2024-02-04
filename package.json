@@ -1,15 +1,18 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.2",
-    "cypress": "^13.6.3"
+    "bootstrap-icons": "^1.11.3"
   },
   "name": "memotest-cypress",
   "version": "1.0.0",
   "description": "clase 11 de r/argentina programa",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "http-server",
+    "cypress-run": "cypress run",
+    "cypress-dev": "cypress open",
+    "test": "run-p start cypress-run",
+    "test-dev": "run-p start cypress-dev"
   },
   "repository": {
     "type": "git",
@@ -20,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/Kund097/memotest-cypress/issues"
   },
-  "homepage": "https://github.com/Kund097/memotest-cypress#readme"
+  "homepage": "https://github.com/Kund097/memotest-cypress#readme",
+  "devDependencies": {
+    "cypress": "^13.6.3",
+    "http-server": "^14.1.1"
+  }
 }
