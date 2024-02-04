@@ -24,7 +24,6 @@ function setDifficulty(FRUITS) {
 }
 
 function configureGame() {
-    currentFruits = [];
     const FRUITS = [
         "apple",
         "banana",
@@ -40,6 +39,7 @@ function configureGame() {
         "peach",
         "coconut",
     ];
+    currentFruits = [];
     setDifficulty(FRUITS);
     let doubleFruits = currentFruits.concat(currentFruits);
     sortRandomFruit(doubleFruits);
@@ -47,7 +47,7 @@ function configureGame() {
     doubleFruits.forEach((fruitName) => {
         let elements = {};
         createElements(fruitName, elements);
-        insertElements($row,elements);
+        insertElements($row, elements);
     });
 }
 
@@ -58,15 +58,15 @@ function createElements(fruitName, elements) {
     $fruitContainer.style.height = `${100 / (currentFruits.length / 2)}vh`;
     $fruitImg.className = `fruit ${fruitName}`;
     $fruitImg.src = `./src/img/${fruitName}.svg`;
+    $fruitImg.setAttribute("data-cy","fruit");
     elements.$fruitContainer = $fruitContainer;
     elements.$fruitImg = $fruitImg;
 }
 
-function insertElements($row,{ $fruitContainer, $fruitImg }) {
+function insertElements($row, { $fruitContainer, $fruitImg }) {
     $fruitContainer.appendChild($fruitImg);
 
-        $row.appendChild($fruitContainer);
-
+    $row.appendChild($fruitContainer);
 }
 
 function sortRandomFruit(doubleFruits) {

@@ -23,27 +23,27 @@
   <div id="container-start">
 
     <div class="container-buttons d-flex align-items-center justify-content-center">
-      <div class="container container-results text-center">
-        <strong id="results-total-rounds"></strong>
-        <strong id="results-total-points"></strong>
+      <div class="container container-results text-center" data-cy="results">
+        <strong id="results-total-rounds" data-cy="turn-number"></strong>
+        <strong id="results-total-points" data-cy="points"></strong>
       </div>
-      <button id="button-start">¡Jugar !</button>
+      <button id="button-start" data-cy="btn-start">¡Jugar !</button>
       <div class="container-difficulty">
         <h1>Dificultad</h1>
         <input type="radio" class="btn-check" id="easy" name="difficulty" autocomplete="off" value="4">
-        <label class="btn btn-primary btn-difficulty" for="easy">Facil</label>
+        <label class="btn btn-primary btn-difficulty" for="easy" data-cy="btn-easy">Facil</label>
 
         <input type="radio" class="btn-check" id="normal" name="difficulty" checked autocomplete="off" value="8">
-        <label class="btn btn-primary btn-difficulty" for="normal">Normal</label>
+        <label class="btn btn-primary btn-difficulty" for="normal" data-cy="btn-normal">Normal</label>
 
         <input type="radio" class="btn-check" id="hard" name="difficulty" autocomplete="off" value="12">
-        <label class="btn btn-primary btn-difficulty" for="hard">Dificil</label>
+        <label class="btn btn-primary btn-difficulty" for="hard" data-cy="btn-hard">Dificil</label>
       </div>
     </div>
-    
+
   </div>
 
-  <div class="container-fluid text-center" id="board">
+  <div class="container-fluid text-center" id="board" data-cy="board">
     <div class="row">
     </div>
   </div>
